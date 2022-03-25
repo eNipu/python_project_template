@@ -1,0 +1,10 @@
+version: '3'
+services:
+  simple_server:
+    build: 
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    ports:  # for the sake of example
+      - "8080:8080"
+    volumes:
+      - ./:/app

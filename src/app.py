@@ -3,7 +3,7 @@ import socketserver
 import argparse
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
-
+from service.calculator import Calculator
 
 PORT = 8080
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -14,10 +14,22 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
         parsed_path = urlparse(self.path)
         query_components = parse_qs(parsed_path.query)
+        result = ""
+        # num1 = 0
+        # num2 = 0
+        if 'num1' in query_components and 'num2' in query_components:
+            num1 = int(query_components['num1'][0])
+            num2 = int(query_components['num2'][0])
+            calc = Calculator()
+            result = calc.add(num1, num2)
+        else:
+            print("Error: missing query parameters")
+        
         message = '<html><body>'
         message += '<h1>Hi there!</h1>'
         message += '<p>You asked for <code>%s</code></p>' % self.path
         message += '<p>You asked for <code>%s</code></p>' % query_components
+        message += '<p>You asked for <code>%s</code></p>' % result
         message += '</body></html>'
         self.wfile.write(bytes(message, 'utf8'))
         return

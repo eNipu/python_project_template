@@ -4,6 +4,7 @@ services:
     build: 
       context: ./
       dockerfile: ./docker/Dockerfile
+    image: simple_server
     ports:  # for the sake of example
       - "8080:8080"
     volumes:
